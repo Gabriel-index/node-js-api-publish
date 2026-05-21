@@ -1,0 +1,20 @@
+{
+  "name": "node.js-api-publish",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .api2/construindoAPI-7.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gabriel-index/node-js-api-publish.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gabriel-index/node-js-api-publish/issues"
+  },
+  "homepage": "https://github.com/Gabriel-index/node-js-api-publish#readme"
+}
