@@ -63,5 +63,56 @@ function cadastrarPedido() {
     })
 
 }
+
+// Função responsável por atualizar o status de um pedido
+function atualizarPedido() {
+    // Pega o ID informando e o força ser um número
+    const id = Number(document.getElementById("idAtualizar").value);
+    // Pega o novo status do pedido (digitado no input5)
+    const status = document.getElementById("statusAtualizar").value;
+
+    fetch("https://node-js-api-publish-z2k9.onrender.com/pedidos", {
+        method: "PUT",
+        headers: {'Content-Type' : 'application/JSON'},
+        body: JSON.stringify({
+            id: id,
+            status: status
+        })
+    })
+    .then(res => res.json())
+    .then(() => {
+        document.getElementById("idAtualizar").value = '';
+        document.getElementById("statusAtualizar").value = '';
+        listarPedidos();
+    })
+    .catch(() => {
+        alert("Erro ao editar o Pedido")
+    })
+}
+
+// Função responsável por remover um pedido
+
+function removerPedido() {
+    // Pega o ID informando e o força ser um número
+    const id = Number(document.getElementById("idRemover").value);
+
+    fetch("https://node-js-api-publish-z2k9.onrender.com/pedidos", {
+        method: "DELETE",
+        headers: {'Content-Type': 'application/JSON'},
+        // Envia apenas o ID do pedido a ser removido
+        body: JSON.stringify({
+            id: id
+        })
+    })
+    .then(res => res.json())
+    // Limpa o campo de ID e atualiza a lista de pedidos
+    .then(() => {
+        document.getElementById("idRemover").value = "";
+        listarPedidos();
+    })
+    .catch(() => {
+        alert("Erro ao cancelar o pedido")
+    });
+}
 // Chama função assim que a página carregar
 listarPedidos()
