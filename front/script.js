@@ -1,1 +1,67 @@
-//
+// Função responsável por buscar todos os pedidos na api e exibir na tela
+function listarPedidos() {
+    // Busca o elemento HTML (lista), onde a listagem de pedidos será exibida
+    const lista = document.getElementById("lista");
+    // Conexão suave entre a interface e a conexão da API
+    lista.innerHTML = "Carregando pedidos...";
+    // Faz uma requisição GET para a API com a url publicada
+    fetch("https://node-js-api-publish-z2k9.onrender.com/pedidos")
+    // Convertendo a resposta da API para JSON
+    .then(res => res.json())
+    // Trabalhando resultado da API
+    .then(resultado => {
+        // Limpando a lista para preencher com os pedidos
+        lista.innerHTML = "";
+        // Percorrendo o array de pedidos recebido da API
+        resultado.dados.forEach(pedido => {
+            // Cria um item de linha para cada pedido
+            const item = document.createElement("li");
+            // Define como o texto será exibido na tela
+            item.textContent = `${pedido.id} - ${pedido.cliente} | ${pedido.produto} | ${pedido.status}`;
+            // Adiciona o item dentro da lista
+            lista.appendChild(item);
+
+        });
+    })
+    // Caso o front não consiga acessar a API para trazer os dados
+    .catch(() => {
+        lista.innerHTML = "Erro ao carregar os pedidos"
+    });
+
+}
+
+// Função responsável pela criação de novos pedidos
+function cadastrarPedido() {
+    // Pega os valores digitados nos inputs do HTML e depois limpar
+    const cliente = document.getElementById("cliente").value;
+    const produto = document.getElementById("produto").value;
+
+    fetch("https://node-js-api-publish-z2k9.onrender.com/pedidos", {
+        method: "POST",
+        headers: {'Content-Type' : 'application/JSON'},
+        // Body
+        body: JSON.stringify({
+            id: Date.now(),
+            cliente: cliente,
+            produto: produto,
+            status: 'pendente'
+        })
+    })
+
+    //Converter a resposta da API para JSON
+    .then(res => res.json())
+    .then(() => {
+        document.getElementById("cliente").value = "";
+        document.getElementById("produto").value = "";
+        // Atualizando a lista de pedidos
+        listarPedidos();
+    })
+
+    // Alerta para caso não seja possível realizar o cadastro do pediddo
+    .catch(() => {
+        alert("Erro ao cadastrar pedido");
+    })
+
+}
+// Chama função assim que a página carregar
+listarPedidos()
